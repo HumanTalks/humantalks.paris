@@ -1,0 +1,88 @@
+---
+import { capitalize } from "vue";
+import Container from "./Container.astro";
+import FormattedDate from "./FormattedDate.astro"
+import type { Event } from "../../types/event.interface";
+
+interface Props {
+	events: Event[]
+}
+
+const { events } = Astro.props;
+---
+
+<section aria-label="Schedule" class="py-20 sm:py-32">
+  <Container class="relative z-10">
+    <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-4xl lg:pr-24">
+      <h2 class="font-display text-4xl font-medium tracking-tight sm:text-5xl">
+        Une communauté de plus de 6000 développeuses et développeurs
+      </h2>
+      <p class="mt-4 font-display text-2xl text-[#763180]">
+        Depuis plus de 10 ans, un événement tous les 2ème mardi du mois dans les locaux d'une entreprise de la tech.
+      </p>
+    </div>
+  </Container>
+  <div class="relative mt-14 sm:mt-24">
+    <Container class="relative">
+      <div class="grid grid-cols-3 gap-8">
+        {events.map((event) => (
+          <section class="bg-white/60 rounded-t-3xl rounded-b-lg overflow-hidden pt-6 text-center shadow-xl shadow-blue-900/5 backdrop-blur flex flex-col justify-around h-full">
+            <h3 class="text-2xl font-bold tracking-normal shrink-0 px-6">
+              <FormattedDate
+                date={new Date(event.start)}
+                format={{
+                  year: 'numeric',
+                  month: 'long'
+                }}
+              />
+            </h3>
+
+            <ol
+              role="list"
+              class="space-y-10 px-10 py-6 flex flex-col justify-around grow"
+            >
+              {event.proposals.map((proposal) => (
+                <li>
+                  <div class="flex items-center justify-center -space-x-4">
+                    {proposal.speakers.map((speaker) => (
+                      <div class="w-16 h-16 flex items-center justify-center bg-blue-100 text-blue-200 rounded-full relative overflow-hidden">
+                        {speaker.avatar && <img src={speaker.avatar} onerror="this.style.display='none'" class="absolute w-full h-full object-cover" />}
+
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24">
+                          <g fill="none">
+                            <path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002-.071.035-.02.004-.014-.004-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113-.013.002-.185.093-.01.01-.003.011.018.43.005.012.008.007.201.093c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.004-.011.017-.43-.003-.012-.01-.01-.184-.092Z"/>
+                            <path fill="currentColor" d="M12 13c2.396 0 4.575.694 6.178 1.672.8.488 1.484 1.064 1.978 1.69.486.615.844 1.351.844 2.138 0 .845-.411 1.511-1.003 1.986-.56.45-1.299.748-2.084.956-1.578.417-3.684.558-5.913.558s-4.335-.14-5.913-.558c-.785-.208-1.524-.506-2.084-.956C3.41 20.01 3 19.345 3 18.5c0-.787.358-1.523.844-2.139.494-.625 1.177-1.2 1.978-1.69C7.425 13.695 9.605 13 12 13Zm0-11a5 5 0 1 1 0 10 5 5 0 0 1 0-10Z"/>
+                          </g>
+                        </svg>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <h4 class="text-md font-semibold tracking-tight leading-snug my-2 text-[#763180]">
+                    {proposal.title}
+                  </h4>
+
+                  <div class="font-medium text-sm">
+                    {proposal.speakers.map((speaker) => capitalize(speaker.firstName) + ' ' + capitalize(speaker.lastName)).join(' & ')}
+                    </div>
+                </li>
+              ))}
+            </ol>
+
+            {event.venue?.partner && (
+              <div class="p-6 bg-blue-100/50 rounded-t-3xl flex justify-center space-x-4 items-center">
+                {event.venue.partner.logo && (
+                  <div class="bg-white shrink-0">
+                    <img src={event.venue.partner.logo} onerror="this.style.display='none'" class="h-16 w-auto" />
+                  </div>
+                )}
+
+                <h5 class="font-medium text-left text-md">{event.venue.partner.name}</h5>
+              </div>
+            )}
+          </section>
+        ))}
+      </div>
+    </Container>
+  </div>
+</section>
