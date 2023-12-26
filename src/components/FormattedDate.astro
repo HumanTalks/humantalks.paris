@@ -1,0 +1,24 @@
+---
+import { capitalize } from 'vue'
+export interface Props {
+	date: Date
+  format?: {
+		weekday?: string
+    year?: string
+    month?: string
+    day?: string
+  }
+}
+
+const { date, format } = Astro.props;
+---
+
+<time class="inline-block" datetime={date.toISOString()}>
+	{
+		capitalize(date.toLocaleDateString('fr-fr', format ? format as any : {
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric',
+		}))
+	}
+</time>
