@@ -5,6 +5,8 @@ import Layout from '../layouts/Layout.astro';
 import Table from '../components/Table.astro';
 import Upcoming from '../components/Upcoming.astro';
 import background from '../assets/img/background.jpg'
+import image1 from '../assets/img/image-1.jpg'
+import image2 from '../assets/img/image-2.jpg'
 import type { Event } from '../../types/event.interface';
 
 const response = await fetch('https://gospeak.io/api/groups/humantalks-paris/events?page-size=15');
@@ -24,17 +26,18 @@ const pastEvents = events.filter(event => {
   <div class="bg-fixed bg-no-repeat absolute top-0 left-0 right-0 bottom-0 opacity-50" style={{ backgroundImage: `url(${background.src})`, backgroundSize: '50%', backgroundPosition: '100% 0%' }} />
 
   <div class="relative py-32">
-    <Container class="relative">
-      <div class="mx-auto max-w-5xl leading-snug">
-        <h1 class="font-display text-6xl font-semibold  text-[#790357]">
+    <Container class="relative flex items-center space-x-12 px-12">
+      <div class="grow">
+        <h1 class="font-display text-5xl font-semibold  text-[#790357]">
           HumanTalks Paris
         </h1>
-        <div class="space-y-6 mt-4 font-display text-2xl text-[#763180]">
+        <div class="font-mono space-y-6 mt-4 text-lg max-w-xl text-slate-950 tracking-tight">
           <p>
             Des Talks pour tous les développeurs et développeuses. Tous les 2èmes mardis du mois.
           </p>
         </div>
-        <dl class="mt-10 grid grid-cols-2 gap-x-10 gap-y-6 sm:mt-16 sm:gap-x-10 sm:gap-y-10 sm:text-center lg:auto-cols-auto lg:grid-flow-col lg:grid-cols-none lg:justify-start lg:text-left">
+
+        <dl class="mt-6 pt-6 border-t border-dotted border-[#790357] flex items-center justify-between">
           {[
             ['CFP ouverts à tout.e.s', '314 Speakers'],
             [`+100 filmés`, '350 Talks'],
@@ -49,6 +52,15 @@ const pastEvents = events.filter(event => {
             </div>
           ))}
         </dl>
+      </div>
+
+      <div class="flex -space-x-6">
+        <div class="w-56 aspect-[9/12] shrink-0 bg-slate-500 rounded-3xl -mt-12 overflow-hidden relative">
+          <img src={image1.src} class="absolute w-full h-full object-cover" />
+        </div>
+        <div class="w-56 aspect-[9/12] shrink-0 bg-slate-500 rounded-3xl -mb-12 overflow-hidden relative">
+          <img src={image2.src} class="absolute w-full h-full object-cover" />
+        </div>
       </div>
     </Container>
 
