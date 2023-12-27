@@ -30,25 +30,25 @@ const { events } = Astro.props;
         Le principe est simple: 4 talks de 10 minutes pour partager autour du développement logiciel au sens large.
       </p>
     </div>
-    <div class="mt-14 flex space-x-12">
-      <div class="border-r border-blue-200 pr-6 text-right shrink-0 min-w-56">
-        <div class="sticky px-6 top-[7.5rem] space-y-6">
+    <div class="mt-14 flex flex-col md:flex-row md:space-x-12">
+      <div class="border-b md:border-none md:border-r border-blue-200 md:pr-6 md:text-right shrink-0 md:min-w-56">
+        <div class="md:sticky pb-6 md:pb-0 md:px-6 flex md:top-[7.5rem] md:space-y-6 space-x-6 md:space-x-0">
           {events.map((event) => (
-            <div class="relative cursor-pointer" data-button-event-slug={event.slug}>
-              <div class="block text-Vxl font-bold text-[#790357]">
+            <a href="#speakers" class="relative cursor-pointer block" data-button-event-slug={event.slug}>
+              <div class="block text-lg font-bold text-[#790357]">
                 <FormattedDate
                   date={new Date(event.start)}
                 />
               </div>
-              <div class="text-slate-500" >
+              <div class="text-slate-500 -mt-1">
                 {event.venue?.partner?.name}
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>
 
-      <div class="grow relative">
+      <div class="grow relative mt-12 md:mt-0">
         {events.map((event, i) => (
           <div class="transition duration-300 top-0 w-full" class:list={[ i === 0 ? '' : 'absolute pointer-events-none opacity-0 translate-y-2' ]} data-section-event-slug={event.slug}>
             <h2 class="font-semibold text-4xl">
@@ -58,8 +58,8 @@ const { events } = Astro.props;
               {event.name.replace('HumanTalks', '')}
             </h2>
 
-            { event.venue?.partner && <div class="mt-12 bg-blue-200/50 backdrop-blur flex items-center p-6 rounded-xl text-blue-900">
-              <div class="w-16 h-16 bg-white rounded-2xl mr-4 shrink-0 overflow-hidden">
+            { event.venue?.partner && <div class="mt-12 bg-blue-200/50 backdrop-blur flex items-center p-6 rounded-xl text-blue-900 flex-col text-center md:text-left space-y-3">
+              <div class="w-16 h-16 bg-white rounded-2xl md:mr-4 shrink-0 overflow-hidden">
                 <img src={event.venue.partner.logo} onerror="this.style.display='none'" class="h-16 w-auto" />
               </div>
 
@@ -68,7 +68,7 @@ const { events } = Astro.props;
                 <p>{event.venue.address.address}</p>
               </div>
 
-              <div class="shrink-0 text-right pr-3 font-medium">
+              <div class="shrink-0 md:text-right md:pr-3 font-medium">
                 <FormattedDate
                   date={new Date(event.start)}
                   format={{
@@ -91,7 +91,7 @@ const { events } = Astro.props;
               </Button>
             </div> }
 
-            <div class="grid grid-cols-2 gap-5 mt-12"> 
+            <div class="grid xs:grid-cols-2 gap-5 mt-6 md:mt-12"> 
               {event.proposals.map((proposal) => (
                 <div class="p-6 rounded-xl flex flex-col justify-around bg-white/90 backdrop-blur">
                   <h3 class="mb-2 font-display text-xl font-bold tracking-tight text-slate-900">
