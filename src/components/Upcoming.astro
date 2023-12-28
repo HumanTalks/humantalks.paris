@@ -126,10 +126,10 @@ const { events } = Astro.props;
               ))}
               
               { [ ...new Array(Math.max(0, 4 - event.proposals.length)) ].map(i => (
-                <div class="p-6 rounded-3xl flex justify-center items-center text-center min-h-60 bg-white/50 text-blue-800 font-semibold backdrop-blur">
-                  <p>
-                    Annoncé bientôt
-                  <p>
+                <div class="p-6 rounded-3xl flex justify-center items-center text-center min-h-60 bg-white/50 text-[#790357] font-semibold backdrop-blur">
+                  <a class=" underline underline-offset-4 decoration-2" href="https://gospeak.io/cfps/humantalks-paris/propose" target="_blank">
+                    Proposer un talk
+                  <a>
                 </div>
               ))}
             </div>
