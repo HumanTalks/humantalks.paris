@@ -14,10 +14,10 @@ const { events } = Astro.props;
 <section aria-label="Schedule" class="py-20 sm:py-32">
   <Container class="relative z-10">
     <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-4xl lg:pr-24">
-      <h2 class="font-display text-4xl font-semibold">
+      <h2 class="font-display text-2xl md:text-4xl font-semibold leading-snug">
         Une communauté de plus de 6000 développeuses et développeurs
       </h2>
-      <p class="font-mono space-y-6 mt-4 tracking-tight text-lg max-w-xl text-slate-950">
+      <p class="font-mono space-y-6 mt-4 tracking-tight text-lg max-w-xl text-slate-950 leading-relaxed">
         Depuis plus de 10 ans, un événement tous les 2ème mardi du mois dans les locaux d'une entreprise de la tech.
       </p>
     </div>
@@ -70,7 +70,7 @@ const { events } = Astro.props;
             </ol>
 
             {event.venue?.partner && (
-              <div class="p-6 bg-blue-100/50 rounded-t-3xl flex justify-center space-x-4 items-center">
+              <div class="p-6 bg-blue-100/50 text-blue-950 rounded-t-3xl flex justify-center space-x-4 items-center">
                 {event.venue.partner.logo && (
                   <div class="bg-white shrink-0">
                     <img src={event.venue.partner.logo} onerror="this.style.display='none'" class="h-16 w-auto" />
