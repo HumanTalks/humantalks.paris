@@ -1,0 +1,90 @@
+---
+import Container from '../components/Container.astro';
+import AlbericTrancart from '../assets/img/organizers/alberic-trancart.png'
+import LoicKnuchel from '../assets/img/organizers/loic-knuchel.png'
+import MathieuParisot from '../assets/img/organizers/mathieu-parisot.webp'
+import SafiaElBayed from '../assets/img/organizers/safia-el-bayed.png'
+import YouriGalescot from '../assets/img/organizers/youri-galescot.png'
+import SamirBouaked from '../assets/img/organizers/samir-bouaked.png'
+
+const organizers = [
+  {
+    name: 'Safia El Bayed',
+    role: 'Architecte Cloud & DevOps',
+    image: SafiaElBayed.src,
+  },
+  {
+    name: 'Loïc Knuchel',
+    role: 'Principal Engineer at Doctolib',
+    image: LoicKnuchel.src,
+  },
+  {
+    name: 'Samir Bouaked',
+    role: 'CTO at Fundimmo',
+    image: SamirBouaked.src,
+  },
+  {
+    name: 'Mathieu Parisot',
+    role: 'Lead dev at ManoMano',
+    image: MathieuParisot.src,
+  },
+  {
+    name: 'Youri Galescot',
+    role: 'Développeur FullStack React / Symfony - freelance',
+    image: YouriGalescot.src,
+  },
+  {
+    name: 'Albéric Trancart',
+    role: 'Tech Lead & Coach at Theodo',
+    image: AlbericTrancart.src,
+  },
+]
+---
+
+<Container class="mt-16">
+  <svg aria-hidden="true" width="0" height="0">
+    <defs>
+      <clipPath id={`clip-0`} clipPathUnits="objectBoundingBox">
+        <path d="M0,0 h0.729 v0.129 h0.121 l-0.016,0.032 C0.815,0.198,0.843,0.243,0.885,0.243 H1 v0.757 H0.271 v-0.086 l-0.121,0.057 v-0.214 c0,-0.032,-0.026,-0.057,-0.057,-0.057 H0 V0" />
+      </clipPath>
+      <clipPath id={`clip-1`} clipPathUnits="objectBoundingBox">
+        <path d="M1,1 H0.271 v-0.129 H0.15 l0.016,-0.032 C0.185,0.802,0.157,0.757,0.115,0.757 H0 V0 h0.729 v0.086 l0.121,-0.057 v0.214 c0,0.032,0.026,0.057,0.057,0.057 h0.093 v0.7" />
+      </clipPath>
+      <clipPath id={`clip-2`} clipPathUnits="objectBoundingBox">
+        <path d="M1,0 H0.271 v0.129 H0.15 l0.016,0.032 C0.185,0.198,0.157,0.243,0.115,0.243 H0 v0.757 h0.729 v-0.086 l0.121,0.057 v-0.214 c0,-0.032,0.026,-0.057,0.057,-0.057 h0.093 V0" />
+      </clipPath>
+      <clipPath id={`clip-3`} clipPathUnits="objectBoundingBox">
+        <path d="M0,0 h0.729 v0.129 h0.121 l-0.016,0.032 C0.815,0.198,0.843,0.243,0.885,0.243 H1 v0.757 H0.271 v-0.086 l-0.121,0.057 v-0.214 c0,-0.032,-0.026,-0.057,-0.057,-0.057 H0 V0" />
+      </clipPath>
+      <clipPath id={`clip-4`} clipPathUnits="objectBoundingBox">
+        <path d="M1,1 H0.271 v-0.129 H0.15 l0.016,-0.032 C0.185,0.802,0.157,0.757,0.115,0.757 H0 V0 h0.729 v0.086 l0.121,-0.057 v0.214 c0,0.032,0.026,0.057,0.057,0.057 h0.093 v0.7" />
+      </clipPath>
+      <clipPath id={`clip-5`} clipPathUnits="objectBoundingBox">
+        <path d="M1,0 H0.271 v0.129 H0.15 l0.016,0.032 C0.185,0.198,0.157,0.243,0.115,0.243 H0 v0.757 h0.729 v-0.086 l0.121,0.057 v-0.214 c0,-0.032,0.026,-0.057,0.057,-0.057 h0.093 V0" />
+      </clipPath>
+    </defs>
+  </svg>
+
+  <h2 class="font-display text-3xl font-semibold leading-snug text-center mb-8">
+    L'équipe d'organisation
+  </h2>
+  
+  <div class="grid grid-cols-2 sm:flex flex-wrap justify-center gap-8">
+    {organizers.map((organizer, i) => (
+      <div class="sm:w-56">
+        <div
+          class=" aspect-square group bg-indigo-50 relative rounded-3xl overflow-hidden"
+          style={{ clipPath: `url(#clip-${i})` }}
+        >
+          <img
+            class="absolute h-full w-full object-cover transition duration-300 group-hover:scale-110"
+            src={organizer.image}
+          />
+        </div>
+
+        <div class="text-xl font-bold text-slate-950 mt-4">{organizer.name}</div>
+        <div>{organizer.role}</div>
+      </div>
+    ))}
+  </div>
+</Container>

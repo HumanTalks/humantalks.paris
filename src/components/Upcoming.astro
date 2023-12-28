@@ -58,7 +58,7 @@ const { events } = Astro.props;
               {event.name.replace('HumanTalks', '')}
             </h2>
 
-            { event.venue?.partner && <div class="mt-12 bg-blue-200/50 backdrop-blur flex items-center p-6 rounded-xl text-blue-900 flex-col text-center md:flex-row md:text-left space-y-3 md:space-y-0">
+            { event.venue?.partner && <div class="mt-12 bg-blue-200/50 backdrop-blur flex items-center p-6 rounded-3xl text-blue-900 flex-col text-center md:flex-row md:text-left space-y-3 md:space-y-0">
               <div class="w-16 h-16 bg-white rounded-2xl md:mr-4 shrink-0 overflow-hidden">
                 <img src={event.venue.partner.logo} onerror="this.style.display='none'" class="h-16 w-auto" />
               </div>
@@ -86,14 +86,17 @@ const { events } = Astro.props;
                 </div>
               </div>
 
-              <Button href="#" class="shrink-0">
+              {event.meetup && <Button href={event.meetup} target="_blank" class="shrink-0">
                 S'inscrire
-              </Button>
+              </Button>}
+              {!event.meetup && <Button href={event.meetup} target="_blank" class="shrink-0">
+                Rejoindre le groupe
+              </Button>}
             </div> }
 
             <div class="grid sm:grid-cols-2 gap-5 mt-6 md:mt-12"> 
               {event.proposals.map((proposal) => (
-                <div class="p-6 rounded-xl flex flex-col justify-around bg-white/90 backdrop-blur">
+                <div class="p-6 rounded-3xl flex flex-col justify-around bg-white/90 backdrop-blur">
                   <h3 class="mb-2 font-display text-xl font-bold tracking-tight text-slate-900">
                     {proposal.title}
                   </h3>
@@ -119,6 +122,14 @@ const { events } = Astro.props;
                     
                     <p>{proposal.speakers.map((speaker) => capitalize(speaker.firstName) + ' ' + capitalize(speaker.lastName)).join(' & ')}</p>
                   </div>
+                </div>
+              ))}
+              
+              { [ ...new Array(Math.max(0, 4 - event.proposals.length)) ].map(i => (
+                <div class="p-6 rounded-3xl flex justify-center items-center text-center min-h-60 bg-white/50 text-blue-800 font-semibold backdrop-blur">
+                  <p>
+                    Coming soon
+                  <p>
                 </div>
               ))}
             </div>

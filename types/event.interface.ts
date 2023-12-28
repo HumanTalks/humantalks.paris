@@ -2,6 +2,7 @@ export interface Event {
   slug: string,
   name: string,
   start: Date,
+  meetup?: string 
   venue: {
     address: {
       name: string
@@ -23,6 +24,8 @@ export interface Event {
   },
   proposals: {
     id: string
+    video?: string
+    slides?: string
     title: string
     description: string
     speakers: {
