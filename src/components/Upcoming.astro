@@ -89,7 +89,7 @@ const { events } = Astro.props;
               {event.meetup && <Button href={event.meetup} target="_blank" class="shrink-0">
                 S'inscrire
               </Button>}
-              {!event.meetup && <Button href={event.meetup} target="_blank" class="shrink-0">
+              {!event.meetup && <Button href="https://www.meetup.com/fr-FR/HumanTalks-Paris" target="_blank" class="shrink-0 !bg-slate-500">
                 Rejoindre le groupe
               </Button>}
             </div> }
@@ -128,7 +128,7 @@ const { events } = Astro.props;
               { [ ...new Array(Math.max(0, 4 - event.proposals.length)) ].map(i => (
                 <div class="p-6 rounded-3xl flex justify-center items-center text-center min-h-60 bg-white/50 text-blue-800 font-semibold backdrop-blur">
                   <p>
-                    Coming soon
+                    Annoncé bientôt
                   <p>
                 </div>
               ))}
