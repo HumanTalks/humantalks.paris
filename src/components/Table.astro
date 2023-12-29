@@ -1,8 +1,10 @@
 ---
 import { capitalize } from "vue";
 import Container from "./Container.astro";
+import Button from "./Button.astro";
 import FormattedDate from "./FormattedDate.astro"
 import type { Event } from "../../types/event.interface";
+import EventTable from "./EventTable.astro";
 
 interface Props {
 	events: Event[]
@@ -13,98 +15,26 @@ const { events } = Astro.props;
 
 <section aria-label="Schedule" class="pt-18 sm:pt-32 bg-gradient-to-b from-blue-50/90 via-blue-50/0 to-blue-50/0">
   <Container class="relative z-10">
-    <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-4xl lg:pr-24">
-      <h2 class="font-display text-2xl md:text-4xl font-semibold leading-snug">
-        Une communauté de plus de 6000 développeuses et développeurs
-      </h2>
-      <p class="font-mono space-y-6 mt-4 tracking-tight text-lg max-w-xl text-slate-950 leading-relaxed">
-        Depuis plus de 10 ans, un événement tous les 2èmes mardis du mois dans les locaux d'une entreprise de la tech.
-      </p>
+    <div class="flex flex-col items-start space-y-6 sm:space-y-0 sm:flex-row sm:space-x-6">
+      <div class="grow">
+        <h2 class="font-display text-2xl md:text-4xl font-semibold max-w-xl leading-snug">
+          Une communauté de plus de 6000 développeuses et développeurs
+        </h2>
+        <p class="font-mono space-y-6 mt-4 tracking-tight text-lg max-w-xl text-slate-950 leading-relaxed ">
+          Depuis plus de 10 ans, un événement tous les 2èmes mardis du mois dans les locaux d'une entreprise de la tech.
+        </p>
+      </div>
+
+      <Button href="/events" class="shrink-0">
+        Tous les événements
+      </Button>
     </div>
   </Container>
   <div class="relative mt-14 sm:mt-24">
     <Container class="relative">
       <div class="grid sm:grid-cols-3 gap-8">
         {events.map((event) => (
-          <section class="bg-white/60 rounded-3xl overflow-hidden pt-6 text-center shadow-xl shadow-blue-900/5 backdrop-blur flex flex-col justify-around h-full">
-            <h3 class="text-2xl font-bold tracking-normal shrink-0 px-6">
-              <FormattedDate
-                date={new Date(event.start)}
-                format={{
-                  year: 'numeric',
-                  month: 'long'
-                }}
-              />
-            </h3>
-
-            <ol
-              role="list"
-              class="space-y-4 sm:space-y-10 px-10 py-6 flex flex-col justify-around grow"
-            >
-              {event.proposals.map((proposal) => (
-                <li>
-                  <div class="flex items-center justify-center -space-x-4">
-                    {proposal.speakers.map((speaker) => (
-                      <div class="w-16 h-16 flex items-center justify-center bg-[#ffffff] text-[#ebd5e5] rounded-full relative overflow-hidden border border-[#f4e9f1]">
-                        {speaker.avatar && <img src={speaker.avatar} onerror="this.style.display='none'" class="absolute w-full h-full object-cover" />}
-
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24">
-                          <g fill="none">
-                            <path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002-.071.035-.02.004-.014-.004-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113-.013.002-.185.093-.01.01-.003.011.018.43.005.012.008.007.201.093c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.004-.011.017-.43-.003-.012-.01-.01-.184-.092Z"/>
-                            <path fill="currentColor" d="M12 13c2.396 0 4.575.694 6.178 1.672.8.488 1.484 1.064 1.978 1.69.486.615.844 1.351.844 2.138 0 .845-.411 1.511-1.003 1.986-.56.45-1.299.748-2.084.956-1.578.417-3.684.558-5.913.558s-4.335-.14-5.913-.558c-.785-.208-1.524-.506-2.084-.956C3.41 20.01 3 19.345 3 18.5c0-.787.358-1.523.844-2.139.494-.625 1.177-1.2 1.978-1.69C7.425 13.695 9.605 13 12 13Zm0-11a5 5 0 1 1 0 10 5 5 0 0 1 0-10Z"/>
-                          </g>
-                        </svg>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <h4 class="text-md font-semibold tracking-tight leading-snug text-slate-950 mt-2">
-                    {proposal.title}
-                  </h4>
-
-                  <div class="mt-2">
-                    { proposal.video &&
-                      <a class="w-6 h-6 inline-flex items-center justify-center rounded-full bg-[#FF0000]" href={proposal.video} target="_blank">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16">
-                          <g fill="none" fill-rule="evenodd">
-                            <path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002-.071.035-.02.004-.014-.004-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113-.013.002-.185.093-.01.01-.003.011.018.43.005.012.008.007.201.093c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.004-.011.017-.43-.003-.012-.01-.01-.184-.092Z"/>
-                            <path fill="#FFFFFF" d="M12 4c.855 0 1.732.022 2.582.058l1.004.048.961.057.9.061.822.064a3.802 3.802 0 0 1 3.494 3.423l.04.425.075.91c.07.943.122 1.971.122 2.954 0 .983-.052 2.011-.122 2.954l-.075.91c-.013.146-.026.287-.04.425a3.802 3.802 0 0 1-3.495 3.423l-.82.063-.9.062-.962.057-1.004.048A61.59 61.59 0 0 1 12 20a61.59 61.59 0 0 1-2.582-.058l-1.004-.048-.961-.057-.9-.062-.822-.063a3.802 3.802 0 0 1-3.494-3.423l-.04-.425-.075-.91A40.662 40.662 0 0 1 2 12c0-.983.052-2.011.122-2.954l.075-.91c.013-.146.026-.287.04-.425A3.802 3.802 0 0 1 5.73 4.288l.821-.064.9-.061.962-.057 1.004-.048A61.676 61.676 0 0 1 12 4Zm-2 5.575v4.85c0 .462.5.75.9.52l4.2-2.425a.6.6 0 0 0 0-1.04l-4.2-2.424a.6.6 0 0 0-.9.52Z"/>
-                          </g>
-                        </svg>  
-                      </a>
-                    }
-
-                    { proposal.slides &&
-                      <a class="w-6 h-6 inline-flex items-center justify-center rounded-full bg-slate-950" href={proposal.slides} target="_blank">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16">
-                          <g fill="none">
-                            <path d="M24 0v24H0V0zM12.593 23.258l-.011.002-.071.035-.02.004-.014-.004-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.017-.018m.265-.113-.013.002-.185.093-.01.01-.003.011.018.43.005.012.008.007.201.093c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.004-.011.017-.43-.003-.012-.01-.01z"/>
-                            <path fill="#FFFFFF" d="M21 3a1 1 0 1 1 0 2v11a2 2 0 0 1-2 2h-5.055l2.293 2.293a1 1 0 0 1-1.414 1.414l-2.828-2.828-2.829 2.828a1 1 0 0 1-1.414-1.414L10.046 18H5a2 2 0 0 1-2-2V5a1 1 0 0 1 0-2zm-2 2H5v11h14zM8 11a1 1 0 0 1 .993.883L9 12v1a1 1 0 0 1-1.993.117L7 13v-1a1 1 0 0 1 1-1m4-2a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-3a1 1 0 0 1 1-1m4-2a1 1 0 0 1 .993.883L17 8v5a1 1 0 0 1-1.993.117L15 13V8a1 1 0 0 1 1-1"/>
-                          </g>
-                        </svg>
-                      </a>
-                    }
-                  </div>
-
-                  <div class="font-mono text-slate-500 tracking-tight text-sm">
-                    {proposal.speakers.map((speaker) => capitalize(speaker.firstName) + ' ' + capitalize(speaker.lastName)).join(' & ')}
-                  </div>
-                </li>
-              ))}
-            </ol>
-
-            {event.venue?.partner && (
-              <div class="px-6 pb-6 mt-6 bg-purple-100/50 text-purple-950 rounded-t-3xl text-center">
-                {event.venue.partner.logo && (
-                  <div class="bg-white shrink-0 rounded-full overflow-hidden inline-block -mt-2">
-                    <img src={event.venue.partner.logo} onerror="this.style.display='none'" class="h-10 w-auto" />
-                  </div>
-                )}
-
-                <h5 class="font-medium text-xl mt-1">{event.venue.partner.name}</h5>
-              </div>
-            )}
-          </section>
+          <EventTable event={event} />
         ))}
       </div>
     </Container>
