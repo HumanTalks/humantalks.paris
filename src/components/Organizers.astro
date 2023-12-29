@@ -41,7 +41,7 @@ const organizers = [
 ]
 ---
 
-<Container class="mt-16">
+<Container class="mt-16 text-slate-950">
   <svg aria-hidden="true" width="0" height="0">
     <defs>
       <clipPath id={`clip-0`} clipPathUnits="objectBoundingBox">
@@ -82,8 +82,8 @@ const organizers = [
           />
         </div>
 
-        <div class="text-xl font-bold text-slate-950 mt-4">{organizer.name}</div>
-        <div>{organizer.role}</div>
+        <div class="text-lg font-bold mt-4">{organizer.name}</div>
+        <div class="text-slate-950 font-mono tracking-tight text-sm">{organizer.role}</div>
       </div>
     ))}
   </div>
