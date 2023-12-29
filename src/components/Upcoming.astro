@@ -15,7 +15,7 @@ const { events } = Astro.props;
 <section
   id="speakers"
   aria-labelledby="speakers-title"
-  class="py-20 sm:py-32 bg-gradient-to-t from-blue-50/90 via-blue-50/95 to-blue-50/0 text-blue-600"
+  class="py-12 sm:py-32 bg-gradient-to-t from-blue-50/90 via-blue-50/95 to-blue-50/0 text-blue-600"
 >
   <!-- <ImageClipPaths id={id} /> -->
   <Container>
@@ -30,11 +30,11 @@ const { events } = Astro.props;
         Le principe est simple: 4 talks de 10 minutes pour partager autour du développement logiciel au sens large.
       </p>
     </div>
-    <div class="mt-14 flex flex-col md:flex-row md:space-x-8">
-      <div class="border-b md:border-none md:text-right shrink-0 md:min-w-56">
-        <div class="md:sticky pb-6 md:pb-0 md:px-6 flex md:block md:top-[7.5rem] md:space-y-6 space-x-6 md:space-x-0 overflow-auto" style="scroll-snap-type: x mandatory;">
+    <div class="mt-4 md:mt-14 flex flex-col-reverse md:flex-row md:space-x-8">
+      <div class="sticky bottom-0 mt-12 z-20 md:relative md:mt-0 md:text-right shrink-0 md:min-w-56">
+        <div class="md:sticky pb-6 md:pb-0 -mx-6 px-6 flex md:block md:top-[7.5rem] md:space-y-6 space-x-2 md:space-x-0 overflow-auto" style="scroll-snap-type: x mandatory;">
           {events.map((event) => (
-            <a href="#speakers" class="relative w-36 sm:w-auto shrink-0 cursor-pointer block" data-button-event-slug={event.slug}>
+            <a href="#speakers" class="relative p-6 md:p-0 bg-white md:bg-transparent rounded-xl shrink-0 cursor-pointer block" data-button-event-slug={event.slug}>
               <div class="block text-lg font-bold">
                 <FormattedDate
                   date={new Date(event.start)}
