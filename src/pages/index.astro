@@ -1,59 +1,273 @@
 ---
-import Container from '../components/Container.astro';
-import Button from '../components/Button.astro';
-import Layout from '../layouts/Layout.astro';
-import Table from '../components/Table.astro';
-import Upcoming from '../components/Upcoming.astro';
-import background from '../assets/img/background.jpg'
-import type { Event } from '../../types/event.interface';
+import Container from "../components/Container.astro";
+import Button from "../components/Button.astro";
+import Layout from "../layouts/Layout.astro";
+import Table from "../components/Table.astro";
+import Upcoming from "../components/Upcoming.astro";
+import background from "../assets/img/background.jpg";
+import image1 from "../assets/img/image-1.jpg";
+import image2 from "../assets/img/image-2.jpg";
+import type { Event } from "../../types/event.interface";
+import Organizers from "../components/Organizers.astro";
+import NDALOGO from "../assets/img/nda-logo.png";
+import JetbrainLOGO from "../assets/img/jetbrains-plain.svg";
+import AzimuttLOGO from "../assets/img/azimutt-logo.svg";
 
-const response = await fetch('https://gospeak.io/api/groups/humantalks-paris/events?page-size=15');
+const response = await fetch(
+  "https://gospeak.io/api/groups/humantalks-paris/events?page-size=15"
+);
 const data: { data: Event[] } = await response.json();
-const events: Event[] = data.data
+const events: Event[] = data.data;
 
-const upcomingEvents = events.filter(event => {
-  return new Date(event.start) >= new Date()
-}).sort((a, b) => Number(new Date(a.start)) - Number(new Date(b.start))).slice(0, 3)
+const upcomingEvents = events
+  .filter((event) => {
+    return new Date(event.start) >= new Date();
+  })
+  .sort((a, b) => Number(new Date(a.start)) - Number(new Date(b.start)))
+  .slice(0, 3);
 
-const pastEvents = events.filter(event => {
-  return new Date(event.start) < new Date()
-}).slice(0, 3)
+const pastEvents = events
+  .filter((event) => {
+    return new Date(event.start) < new Date();
+  })
+  .slice(0, 3);
+
+const talksResponse = await fetch(
+  "https://gospeak.io/api/groups/humantalks-paris/talks?page-size=15"
+);
+const talksData: { data: Event[] } = await talksResponse.json();
+
+const speakersResponse = await fetch(
+  "https://gospeak.io/api/groups/humantalks-paris/talks?page-size=15"
+);
+const speakersData: { data: Event[] } = await speakersResponse.json();
 ---
 
-<Layout title="Welcome to Astro.">
-  <div class="bg-fixed bg-no-repeat absolute top-0 left-0 right-0 bottom-0 opacity-50" style={{ backgroundImage: `url(${background.src})`, backgroundSize: '50%', backgroundPosition: '100% 0%' }} />
+<Layout title="HumanTalks Paris">
+  <div
+    class="bg-fixed bg-no-repeat fixed top-0 left-0 right-0 bottom-0 opacity-50"
+    style={{
+      backgroundImage: `url(${background.src})`,
+      backgroundSize: "50%",
+      backgroundPosition: "100% 0%",
+    }}
+  >
+  </div>
 
-  <div class="relative py-32">
-    <Container class="relative">
-      <div class="mx-auto max-w-5xl leading-snug">
-        <h1 class="font-display text-6xl font-semibold  text-[#790357]">
+  <div class="relative pt-12 md:pt-32">
+    <Container class="relative md:flex items-center md:space-x-12 px-12">
+      <div class="grow">
+        <h1
+          class="font-display text-4xl sm:text-5xl font-semibold text-[#790357]"
+        >
           HumanTalks Paris
         </h1>
-        <div class="space-y-6 mt-4 font-display text-2xl text-[#763180]">
+        <div
+          class="font-mono space-y-6 mt-4 text-lg max-w-xl text-slate-950 tracking-tight leading-relaxed"
+        >
           <p>
-            Des Talks pour tous les développeurs et développeuses. Tous les 2èmes mardis du mois.
+            Une association dédiée à la promotion de la technologie, de l'innovation et de la collaboration au sein de la communauté tech Parisienne.
+            Des Talks pour tous les développeurs et développeuses. <br /> 
+            <strong>Tous les 2èmes mardis du mois.</strong>
           </p>
         </div>
-        <dl class="mt-10 grid grid-cols-2 gap-x-10 gap-y-6 sm:mt-16 sm:gap-x-10 sm:gap-y-10 sm:text-center lg:auto-cols-auto lg:grid-flow-col lg:grid-cols-none lg:justify-start lg:text-left">
-          {[
-            ['CFP ouverts à tout.e.s', '314 Speakers'],
-            [`+100 filmés`, '350 Talks'],
-            [`+15k abonnés Youtube`, '7 300 Membres'],
-            [`Depuis + de 6 ans !`, '81 Meetups'],
-          ].map(([name, value]) => (
-            <div>
-              <dd class="mb-0.5 text-2xl font-semibold tracking-tight">
-                {value}
-              </dd>
-              <dt class="font-mono text-sm text-slate-950">{name}</dt>
-            </div>
-          ))}
+
+        <dl
+          class="mt-6 sm:pt-6 sm:border-t sm:border-dotted border-[#790357] lg:flex lg:items-center lg:justify-between"
+        >
+          {
+            [
+              [
+                "CFP ouverts à tout.e.s",
+                `${speakersData?.totalItems ?? 367} Speakers`,
+              ],
+              [`+160 filmés`, `${talksData?.totalItems ?? 367} Talks`],
+              [`+15k abonnés Youtube`, "8 000 Membres"],
+              [`Depuis + de 10 ans !`, `${data?.totalItems ?? 95} Meetups`],
+            ].map(([name, value]) => (
+              <div class="border-b border-dotted border-[#790357] py-3 sm:py-0 sm:border-none">
+                <dd class="text-lg sm:text-lg font-semibold tracking-tight">
+                  {value}
+                </dd>
+                <dt class="font-mono text-sm tracking-tight text-slate-950">
+                  {name}
+                </dt>
+              </div>
+            ))
+          }
         </dl>
       </div>
+
+      <div class="flex -space-x-6 justify-center shrink-0 mt-12 md:mt-0">
+        <div
+          class="w-36 sm:w-56 aspect-[9/12] shrink-0 bg-slate-500 rounded-3xl -translate-y-3 sm:translate-y-0 sm:-mt-12 overflow-hidden relative"
+        >
+          <img src={image1.src} class="absolute w-full h-full object-cover" />
+        </div>
+        <div
+          class="w-36 sm:w-56 aspect-[9/12] shrink-0 bg-slate-500 rounded-3xl translate-y-3 sm:translate-y-0 sm:-mb-12 overflow-hidden relative"
+        >
+          <img src={image2.src} class="absolute w-full h-full object-cover" />
+        </div>
+      </div>
     </Container>
+    <div class="mx-auto max-w-7xl px-6 pt-12 lg:px-8">
+      <h2 class="text-center text-lg leading-6 text-gray-800">
+        Sponsorisé par
+      </h2>
+      <div
+        class="mx-auto mt-10 grid max-w-lg grid-cols-3 align-center text-center content-center items-center gap-x-8 gap-y-8 sm:max-w-xl sm:grid-cols-3 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5"
+      >
+        <a
+          href="https://contentsquare.com/fr-fr/"
+          target="_blank"
+          class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 834.62 194.61"
+            class="h-12"
+          >
+            <path
+              fill="#3640e8"
+              d="M228.32 97.35c0-18 13.33-31.92 31.92-31.92a30.57 30.57 0 0 1 26.39 14.47L276.2 86c-3-5.44-8.95-8.77-16-8.77-12 0-19.91 8.33-19.91 20.17s7.89 20.08 19.91 20.08c7 0 13.06-3.33 16-8.68l10.43 6c-5.17 8.77-15.08 14.47-26.39 14.47-18.59 0-31.92-14.03-31.92-31.92ZM291.07 106.12a23.2 23.2 0 1 1 23.15 23.15 22.91 22.91 0 0 1-23.15-23.15Zm35.07 0A11.66 11.66 0 0 0 314.22 94c-6.67 0-11.84 5-11.84 12.1s5.17 12.1 11.84 12.1a11.66 11.66 0 0 0 11.92-12.08ZM386 101.12V128h-11.33v-25.48c0-6-3.6-9-8.68-9-5.53 0-9.65 3.25-9.65 10.88V128H345V84.2h11.31v4.91c2.63-4 7.19-6.14 13.07-6.14C378.7 83 386 89.46 386 101.12ZM410 95.07v18.24c0 4.74 3.42 4.82 9.91 4.47V128c-15.88 1.76-21.23-2.89-21.23-14.73v-18.2H391V84.2h7.62v-8.86L410 71.92V84.2h9.91v10.87ZM449.27 119a12.16 12.16 0 0 0 9.82-4.38l9.12 5.26c-4.12 6-10.7 9.38-19.12 9.38-14.73 0-24-10.08-24-23.15S434.45 83 448.22 83c13 0 22.18 10.26 22.18 23.15a25.49 25.49 0 0 1-.44 4.65H436.9c1.58 5.76 6.41 8.2 12.37 8.2Zm9.82-17c-1.4-6.32-6.14-8.86-10.87-8.86-6.06 0-10.18 3.25-11.49 8.86ZM519 101.12V128h-11.27v-25.48c0-6-3.6-9-8.68-9-5.53 0-9.65 3.25-9.65 10.88V128h-11.31V84.2h11.31v4.91c2.63-4 7.19-6.14 13.07-6.14 9.29.03 16.53 6.49 16.53 18.15ZM543 95.07v18.24c0 4.74 3.42 4.82 9.91 4.47V128c-15.88 1.76-21.22-2.89-21.22-14.73v-18.2h-7.63V84.2h7.63v-8.86L543 71.92V84.2h9.91v10.87ZM594.09 115.24c0 9.47-8.24 14-17.63 14-8.77 0-15.26-3.68-18.41-10.43l9.82-5.53c1.23 3.6 4.21 5.7 8.59 5.7 3.6 0 6-1.23 6-3.77 0-6.4-22.62-2.89-22.62-18.33C559.89 88 567.52 83 576.55 83c7.1 0 13.24 3.24 16.66 9.29l-9.64 5.27a7.43 7.43 0 0 0-7-4.48c-2.81 0-5.09 1.23-5.09 3.6-.02 6.46 22.61 2.42 22.61 18.56ZM645.67 84.2v61.38h-11.31v-22.71c-3.15 4-7.8 6.4-14.2 6.4-11.76 0-21.4-10.08-21.4-23.15S608.4 83 620.16 83c6.4 0 11.05 2.37 14.2 6.4v-5.2Zm-11.31 21.92c0-7.37-5.17-12.36-12.1-12.36s-12.19 5-12.19 12.36 5.18 12.36 12.19 12.36 12.1-4.99 12.1-12.36ZM696.27 84.2V128H685v-4.91c-2.64 4-7.2 6.14-13.07 6.14-9.3 0-16.58-6.49-16.58-18.15V84.2h11.32v25.52c0 6 3.59 9 8.68 9 5.52 0 9.65-3.25 9.65-10.88V84.2ZM751 84.2V128h-11.36v-5.17c-3.16 3.95-7.9 6.4-14.3 6.4-11.66 0-21.31-10.08-21.31-23.15S713.68 83 725.34 83c6.4 0 11.14 2.45 14.3 6.4v-5.2Zm-11.31 21.92c0-7.37-5.18-12.36-12.19-12.36s-12.1 5-12.1 12.36 5.17 12.36 12.1 12.36 12.14-4.99 12.14-12.36ZM785.63 83.32V96c-5.88-.7-13.33 1.93-13.33 11.13v21H761V84.2h11.3v7.54c2.28-5.96 7.8-8.42 13.33-8.42ZM813.49 119a12.16 12.16 0 0 0 9.82-4.38l9.12 5.26c-4.12 6-10.7 9.38-19.12 9.38-14.73 0-24-10.08-24-23.15S798.67 83 812.44 83c13 0 22.18 10.26 22.18 23.15a26.42 26.42 0 0 1-.43 4.65h-33.06c1.57 5.76 6.4 8.2 12.36 8.2Zm9.82-17c-1.4-6.32-6.14-8.86-10.87-8.86-6.05 0-10.17 3.25-11.49 8.86ZM186.25 57.55 184 53.18a97.3 97.3 0 1 0 0 88.26l2.23-4.38-39.74-39.75Zm-16.59 82a83.81 83.81 0 1 1 0-84.53l-32.72 32.74-39.63-39.64-49.19 49.19 49.19 49.18 39.63-39.64ZM127.4 97.31 97.31 127.4l-30.1-30.09 30.1-30.1Z"
+              class="cls-1"></path>
+          </svg>
+        </a>
+
+        <a
+          href="https://www.nda-partners.com"
+          target="_blank"
+          class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+        >
+          <img src={NDALOGO.src} class="h-7 -mt-2.5" />
+        </a>
+        <a
+          href="https://carbon-it.fr"
+          target="_blank"
+          class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            xml:space="preserve"
+            viewBox=".3 3.5 145.1 29"
+            class="h-5"
+          >
+            <path
+              d="m21.5 11.1-6.7-3.9c-.8-.5-1.7-.7-2.6-.7-.9 0-1.8.2-2.6.7l-6.7 3.9C1.3 12 .3 13.7.3 15.6v7.8c0 1.9 1 3.6 2.6 4.5l6.7 3.9c.8.5 1.7.7 2.6.7.9 0 1.8-.2 2.6-.7l6.7-3.9c1.6-.9 2.6-2.7 2.6-4.5v-7.8c0-1.9-1-3.6-2.6-4.5zm-.2 12.3c0 .9-.5 1.7-1.2 2.1l-6.7 3.9c-.4.2-.8.3-1.2.3-.4 0-.8-.1-1.2-.3l-6.7-3.9c-.8-.4-1.3-1.3-1.3-2.1v-7.8c0-.9.5-1.7 1.2-2.1l6.7-3.9c.4-.2.8-.3 1.2-.3.4 0 .8.1 1.2.3l6.7 3.9c.7.4 1.2 1.2 1.2 2.1v7.8zm23.6 0s-2.3 2.3-5.2 2.3c-3.6 0-5.5-2.8-5.5-5.5 0-3.2 2.2-5.4 5.3-5.4 2.7 0 4.6 1.9 4.6 1.9l.2.2 2.3-3.5-.1-.1c-.1-.1-2.4-2.8-7.2-2.8-5.9 0-10.2 4.1-10.2 9.8S33.4 30 39.3 30c5 0 7.6-2.9 7.7-3.1l.1-.1-2-3.7-.2.3zm12.2-13.1c-4.4 0-7.2 2.2-7.3 2.3l-.2.1 1.9 3.7.2-.2s2.4-1.7 4.9-1.7c2.2 0 3.3 1 3.3 3h-.4c-4.1 0-11.1.8-11.1 6.5 0 3.9 3.2 6 6.5 6 2.2 0 3.7-.9 4.5-1.7.4-.3.6-.7.9-1v2.1H65V17.8c-.1-4.8-2.9-7.5-7.9-7.5zM60 21.4c0 2.2-1.7 4.6-3.9 4.6-1.7 0-2.5-1.1-2.5-2.1 0-2.2 3.2-2.6 5.9-2.6h.5v.1zm19.6-10.9c-2.3 0-4.5 1.5-5.6 3.7v-3.5h-4.9v18.8h5V22c0-1.2.1-2.1.4-2.9.9-2.7 3-3.7 4.8-3.7.6 0 1 .1 1 .1h.3v-5h-.2c.1.1-.3 0-.8 0zm14-.2c-2.9 0-4.6 1.4-5.3 2.2v-9h-5v26h4.8v-1.9c.7.8 2.4 2.3 5.2 2.3 5.1 0 8.6-4 8.6-9.8.1-5.8-3.3-9.8-8.3-9.8zm-1.1 15.4c-3 0-4.3-2.8-4.3-5.4 0-4.1 2.3-5.6 4.4-5.6 2.6 0 4.3 2.2 4.3 5.5s-1.7 5.5-4.4 5.5zm21.7-15.4c-5.9 0-10.3 4.2-10.3 9.8s4.4 9.8 10.3 9.8 10.3-4.2 10.3-9.8-4.4-9.8-10.3-9.8zm.1 15.3c-3 0-5.2-2.4-5.2-5.5s2.2-5.5 5.2-5.5 5.2 2.4 5.2 5.5-2.3 5.5-5.2 5.5zm24.6-15.3c-3.5 0-5.4 2-6.3 3.2v-2.8h-4.9v18.8h5v-8.6c0-1 .1-1.7.3-2.4.7-2.2 2.5-3.6 4.7-3.6 1.9 0 2.7 1 2.7 3.5v11.1h5v-12c.1-4.8-2.1-7.2-6.5-7.2z"
+              class="logo_carbon_it"></path>
+          </svg>
+        </a>
+        <a
+          href="https://www.jetbrains.com"
+          target="_blank"
+          class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+        >
+          <img src={JetbrainLOGO.src} class="h-7 -mt-2.5" />
+        </a>
+        <a
+          href="https://azimutt.app"
+          target="_blank"
+          class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+        >
+          <img src={AzimuttLOGO.src} class="h-7 -mt-2.5" />
+        </a>
+      </div>
+    </div>
 
     <Upcoming events={upcomingEvents} />
 
     <Table events={pastEvents} />
+
+    <Container
+      class="justify-center grid grid-cols-1 sm:grid-cols-2 gap-4 !max-w-5xl my-16"
+    >
+      {
+        [
+          "https://www.youtube.com/embed/PJWknnN0SEo",
+          "https://www.youtube.com/embed/IOcTh3AoMDw",
+          "https://www.youtube.com/embed/6UIaZFElcW4",
+          "https://www.youtube.com/embed/ps6Bl9A8swM",
+        ].map((video) => (
+          <div class="aspect-video relative overflow-hidden rounded-xl">
+            <iframe
+              width="100%"
+              height="100%"
+              src={video}
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            />
+          </div>
+        ))
+      }
+
+      <div class="sm:col-span-2 text-center">
+        <Button href="/videos">Voir toutes les vidéos</Button>
+      </div>
+    </Container>
+
+    <div class="bg-gradient-to-t from-white via-white/95 to-white/0 py-16">
+      <div class="text-center max-w-lg mx-auto">
+        <div class="flex flex-wrap justify-center items-center">
+          <a
+            href="https://contentsquare.com/fr-fr/"
+            target="_blank"
+            class="shrink-0 m-7"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 606.31 298.6"
+              class="h-40"
+            >
+              <path
+                fill="#3640e8"
+                d="m397.37 57.55-2.23-4.37a97.3 97.3 0 1 0 0 88.26l2.23-4.38-39.76-39.75Zm-16.58 82a83.81 83.81 0 1 1 0-84.53l-32.72 32.74-39.64-39.64-49.19 49.19 49.19 49.18 39.64-39.64Zm-42.27-42.24-30.09 30.09-30.09-30.09 30.09-30.1ZM0 250.37c0-18 13.33-31.92 31.92-31.92a30.58 30.58 0 0 1 26.39 14.46L47.88 239c-3-5.44-9-8.77-16-8.77-12 0-19.91 8.33-19.91 20.17s7.9 20.08 19.91 20.08c7 0 13.07-3.34 16-8.68l10.43 6.05c-5.17 8.77-15.08 14.47-26.39 14.47C13.33 282.29 0 268.25 0 250.37ZM62.75 259.13a23.2 23.2 0 1 1 23.15 23.16 22.91 22.91 0 0 1-23.15-23.16Zm35.07 0A11.66 11.66 0 0 0 85.9 247c-6.67 0-11.84 5-11.84 12.1s5.17 12.11 11.84 12.11a11.66 11.66 0 0 0 11.92-12.08ZM157.66 254.14v26.92h-11.31v-25.52c0-6-3.6-9-8.68-9-5.53 0-9.65 3.24-9.65 10.87v23.68h-11.31v-43.88H128v4.91c2.63-3.94 7.19-6.14 13.07-6.14 9.31.02 16.59 6.49 16.59 18.16ZM181.65 248.09v18.24c0 4.73 3.42 4.82 9.91 4.47v10.26c-15.87 1.75-21.22-2.9-21.22-14.73v-18.24h-7.63v-10.88h7.63v-8.86l11.31-3.42v12.28h9.91v10.88ZM221 272a12.17 12.17 0 0 0 9.82-4.39l9.12 5.26c-4.12 6-10.7 9.39-19.12 9.39-14.73 0-24-10.09-24-23.16s9.31-23.1 23.08-23.1c13 0 22.18 10.26 22.18 23.15a25.49 25.49 0 0 1-.44 4.65h-33.06c1.58 5.77 6.42 8.2 12.42 8.2Zm9.82-17c-1.4-6.31-6.14-8.85-10.87-8.85-6.05 0-10.18 3.24-11.49 8.85ZM290.72 254.14v26.92h-11.31v-25.52c0-6-3.6-9-8.68-9-5.53 0-9.65 3.24-9.65 10.87v23.68h-11.31v-43.88h11.31v4.91c2.63-3.94 7.19-6.14 13.07-6.14 9.29.02 16.57 6.49 16.57 18.16ZM314.71 248.09v18.24c0 4.73 3.42 4.82 9.91 4.47v10.26c-15.87 1.75-21.22-2.9-21.22-14.73v-18.24h-7.63v-10.88h7.63v-8.86l11.31-3.42v12.28h9.91v10.88ZM365.77 268.25c0 9.48-8.24 14-17.63 14-8.77 0-15.26-3.69-18.41-10.44l9.82-5.52c1.23 3.59 4.21 5.7 8.59 5.7 3.6 0 6.05-1.23 6.05-3.78 0-6.4-22.62-2.89-22.62-18.32 0-9 7.63-14 16.66-14 7.1 0 13.24 3.25 16.66 9.3l-9.64 5.26a7.41 7.41 0 0 0-7-4.47c-2.81 0-5.08 1.23-5.08 3.59-.02 6.58 22.6 2.55 22.6 18.68ZM417.36 237.21v61.39H406v-22.72c-3.15 4-7.8 6.41-14.2 6.41-11.75 0-21.4-10.09-21.4-23.16S380.09 236 391.84 236c6.4 0 11.05 2.37 14.2 6.41v-5.18ZM406 259.13c0-7.36-5.17-12.36-12.1-12.36s-12.19 5-12.19 12.36 5.18 12.37 12.19 12.37 12.1-5 12.1-12.37ZM468 237.21v43.85h-11.36v-4.91c-2.63 3.94-7.19 6.14-13.07 6.14-9.29 0-16.57-6.49-16.57-18.16v-26.92h11.31v25.52c0 6 3.59 9 8.68 9 5.52 0 9.65-3.24 9.65-10.87v-23.65ZM522.63 237.21v43.85h-11.31v-5.18c-3.16 3.95-7.9 6.41-14.3 6.41-11.66 0-21.31-10.09-21.31-23.16S485.36 236 497 236c6.4 0 11.14 2.46 14.3 6.41v-5.18Zm-11.31 21.92c0-7.36-5.18-12.36-12.19-12.36s-12.1 5-12.1 12.36 5.17 12.37 12.1 12.37 12.19-5 12.19-12.37ZM557.31 236.33V249c-5.88-.7-13.33 1.93-13.33 11.14v21h-11.31v-43.93H544v7.54c2.26-5.96 7.78-8.42 13.31-8.42ZM585.17 272a12.16 12.16 0 0 0 9.82-4.39l9.12 5.26c-4.12 6-10.7 9.39-19.11 9.39-14.74 0-24-10.09-24-23.16s9.35-23.1 23.12-23.1c13 0 22.19 10.26 22.19 23.15a26.4 26.4 0 0 1-.44 4.65h-33.06c1.57 5.77 6.4 8.2 12.36 8.2Zm9.83-17c-1.4-6.31-6.14-8.85-10.87-8.85-6 0-10.17 3.24-11.49 8.85Z"
+              ></path>
+            </svg>
+          </a>
+          <a href="https://carbon-it.fr/" target="_blank" class="shrink-0 m-6">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              xml:space="preserve"
+              viewBox=".3 3.5 145.1 29"
+              class="h-8"
+            >
+              <path
+                d="m21.5 11.1-6.7-3.9c-.8-.5-1.7-.7-2.6-.7-.9 0-1.8.2-2.6.7l-6.7 3.9C1.3 12 .3 13.7.3 15.6v7.8c0 1.9 1 3.6 2.6 4.5l6.7 3.9c.8.5 1.7.7 2.6.7.9 0 1.8-.2 2.6-.7l6.7-3.9c1.6-.9 2.6-2.7 2.6-4.5v-7.8c0-1.9-1-3.6-2.6-4.5zm-.2 12.3c0 .9-.5 1.7-1.2 2.1l-6.7 3.9c-.4.2-.8.3-1.2.3-.4 0-.8-.1-1.2-.3l-6.7-3.9c-.8-.4-1.3-1.3-1.3-2.1v-7.8c0-.9.5-1.7 1.2-2.1l6.7-3.9c.4-.2.8-.3 1.2-.3.4 0 .8.1 1.2.3l6.7 3.9c.7.4 1.2 1.2 1.2 2.1v7.8zm23.6 0s-2.3 2.3-5.2 2.3c-3.6 0-5.5-2.8-5.5-5.5 0-3.2 2.2-5.4 5.3-5.4 2.7 0 4.6 1.9 4.6 1.9l.2.2 2.3-3.5-.1-.1c-.1-.1-2.4-2.8-7.2-2.8-5.9 0-10.2 4.1-10.2 9.8S33.4 30 39.3 30c5 0 7.6-2.9 7.7-3.1l.1-.1-2-3.7-.2.3zm12.2-13.1c-4.4 0-7.2 2.2-7.3 2.3l-.2.1 1.9 3.7.2-.2s2.4-1.7 4.9-1.7c2.2 0 3.3 1 3.3 3h-.4c-4.1 0-11.1.8-11.1 6.5 0 3.9 3.2 6 6.5 6 2.2 0 3.7-.9 4.5-1.7.4-.3.6-.7.9-1v2.1H65V17.8c-.1-4.8-2.9-7.5-7.9-7.5zM60 21.4c0 2.2-1.7 4.6-3.9 4.6-1.7 0-2.5-1.1-2.5-2.1 0-2.2 3.2-2.6 5.9-2.6h.5v.1zm19.6-10.9c-2.3 0-4.5 1.5-5.6 3.7v-3.5h-4.9v18.8h5V22c0-1.2.1-2.1.4-2.9.9-2.7 3-3.7 4.8-3.7.6 0 1 .1 1 .1h.3v-5h-.2c.1.1-.3 0-.8 0zm14-.2c-2.9 0-4.6 1.4-5.3 2.2v-9h-5v26h4.8v-1.9c.7.8 2.4 2.3 5.2 2.3 5.1 0 8.6-4 8.6-9.8.1-5.8-3.3-9.8-8.3-9.8zm-1.1 15.4c-3 0-4.3-2.8-4.3-5.4 0-4.1 2.3-5.6 4.4-5.6 2.6 0 4.3 2.2 4.3 5.5s-1.7 5.5-4.4 5.5zm21.7-15.4c-5.9 0-10.3 4.2-10.3 9.8s4.4 9.8 10.3 9.8 10.3-4.2 10.3-9.8-4.4-9.8-10.3-9.8zm.1 15.3c-3 0-5.2-2.4-5.2-5.5s2.2-5.5 5.2-5.5 5.2 2.4 5.2 5.5-2.3 5.5-5.2 5.5zm24.6-15.3c-3.5 0-5.4 2-6.3 3.2v-2.8h-4.9v18.8h5v-8.6c0-1 .1-1.7.3-2.4.7-2.2 2.5-3.6 4.7-3.6 1.9 0 2.7 1 2.7 3.5v11.1h5v-12c.1-4.8-2.1-7.2-6.5-7.2z"
+                class="logo_carbon_it"></path>
+            </svg>
+          </a>
+          <a
+            href="https://www.nda-partners.com/"
+            target="_blank"
+            class="shrink-0 m-6"
+          >
+            <img src={NDALOGO.src} class="h-9 -mt-2.5" />
+          </a>
+          <a
+            href="https://www.jetbrains.com/"
+            target="_blank"
+            class="shrink-0 m-6"
+          >
+            <img src={JetbrainLOGO.src} class="h-9 -mt-2.5" />
+          </a>
+          <a href="https://azimutt.app" target="_blank" class="shrink-0 m-6">
+            <img src={AzimuttLOGO.src} class="h-9 -mt-2.5" />
+          </a>
+        </div>
+
+        <Button
+          class="mt-8"
+          href="https://docs.google.com/presentation/d/1nMhsNz_zK3U11rmIShN4v6imK3KZRZWcc6mRB4WsHOA/edit#slide=id.g5d9a8500fe_5_7"
+          target="_blank"
+        >
+          Devenir sponsor
+        </Button>
+      </div>
+
+      <Organizers />
+    </div>
   </div>
 </Layout>
